@@ -20,3 +20,22 @@ fetch("http://localhost:5678/api/works")
   .catch((error) => {
     console.error("Erreur lors du chargement des projets :", error);
   });
+
+fetch("http://localhost:5678/api/categories")
+  .then((response) => response.json())
+  .then((categories) => {
+    const filters = document.querySelector(".filters");
+
+    const allButton = document.createElement("button");
+    allButton.textContent = "Tous";
+    filters.appendChild(allButton);
+
+    categories.forEach((category) => {
+      const button = document.createElement("button");
+      button.textContent = category.name;
+      filters.appendChild(button);
+    });
+  })
+  .catch((error) => {
+    console.error("Erreur lors du chargement des catégories :", error);
+  });
