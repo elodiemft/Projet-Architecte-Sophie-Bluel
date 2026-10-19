@@ -19,8 +19,8 @@ loginForm.addEventListener("submit", async (event) => {
     });
 
     if (!response.ok) {
-      console.error("Identifiants incorrects");
-      return;
+      document.querySelector("#login-error").textContent =
+        "E-mail ou mot de passe incorrect";
     }
 
     const data = await response.json();
