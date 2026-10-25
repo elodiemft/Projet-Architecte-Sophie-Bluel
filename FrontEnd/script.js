@@ -1,3 +1,12 @@
+const token = sessionStorage.getItem("token");
+const estConnecte = token !== null;
+
+if (estConnecte) {
+  document.querySelector("#edition-banner").style.display = "block";
+}
+
+console.log("Utilisateur connecté :", estConnecte);
+
 let tousLesProjets = [];
 
 const gallery = document.querySelector(".gallery");
