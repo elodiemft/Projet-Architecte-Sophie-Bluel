@@ -1,6 +1,10 @@
 const token = sessionStorage.getItem("token");
 const estConnecte = token !== null;
 
+if (estConnecte) {
+  document.querySelector(".filters").style.display = "none";
+}
+
 const loginLink = document.querySelector("#login-link");
 
 if (estConnecte) {
