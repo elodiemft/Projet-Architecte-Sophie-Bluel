@@ -189,6 +189,23 @@ h2 {
   color: #1d6154;
 }
 
+#edit-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Work Sans";
+  font-size: 14px;
+  color: black;
+}
+
+.portfolio-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 30px;
+}
+
 .filters {
   display: flex;
   justify-content: center;
