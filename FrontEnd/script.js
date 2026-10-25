@@ -1,6 +1,21 @@
 const token = sessionStorage.getItem("token");
 const estConnecte = token !== null;
 
+const loginLink = document.querySelector("#login-link");
+
+if (estConnecte) {
+  loginLink.textContent = "logout";
+  loginLink.href = "#";
+
+  loginLink.addEventListener("click", (event) => {
+    event.preventDefault();
+
+    sessionStorage.removeItem("token");
+
+    window.location.href = "index.html";
+  });
+}
+
 if (estConnecte) {
   document.querySelector("#edition-banner").style.display = "block";
 }
