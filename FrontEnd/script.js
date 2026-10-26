@@ -110,3 +110,15 @@ editButton.addEventListener("click", () => {
   document.querySelector("#modal-gallery").style.display = "block";
   document.querySelector("#modal-add").style.display = "none";
 });
+
+const closeModal = document.querySelector("#close-modal");
+
+closeModal.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
