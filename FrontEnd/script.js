@@ -101,3 +101,12 @@ function activerBouton(boutonSelectionne) {
 
   boutonSelectionne.classList.add("active");
 }
+
+const editButton = document.querySelector("#edit-button");
+const modal = document.querySelector("#modal");
+
+editButton.addEventListener("click", () => {
+  modal.style.display = "flex";
+  document.querySelector("#modal-gallery").style.display = "block";
+  document.querySelector("#modal-add").style.display = "none";
+});
