@@ -49,11 +49,34 @@ function afficherProjets(projets) {
   });
 }
 
+function afficherPhotosModale(projets) {
+  const modalPhotos = document.querySelector(".modal-photos");
+
+  modalPhotos.innerHTML = "";
+
+  projets.forEach((work) => {
+    const figure = document.createElement("figure");
+    const image = document.createElement("img");
+    const deleteButton = document.createElement("button");
+
+    image.src = work.imageUrl;
+    image.alt = work.title;
+
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    deleteButton.type = "button";
+
+    figure.appendChild(image);
+    figure.appendChild(deleteButton);
+    modalPhotos.appendChild(figure);
+  });
+}
+
 fetch("http://localhost:5678/api/works")
   .then((response) => response.json())
   .then((works) => {
     tousLesProjets = works;
     afficherProjets(works);
+    afficherPhotosModale(works);
   })
   .catch((error) => {
     console.error("Erreur lors du chargement des projets :", error);
@@ -121,4 +144,18 @@ modal.addEventListener("click", (event) => {
   if (event.target === modal) {
     modal.style.display = "none";
   }
+});
+
+const addPhotoButton = document.querySelector("#add-photo-button");
+
+addPhotoButton.addEventListener("click", () => {
+  document.querySelector("#modal-gallery").style.display = "none";
+  document.querySelector("#modal-add").style.display = "block";
+});
+
+const backButton = document.querySelector("#back-button");
+
+backButton.addEventListener("click", () => {
+  document.querySelector("#modal-add").style.display = "none";
+  document.querySelector("#modal-gallery").style.display = "block";
 });
