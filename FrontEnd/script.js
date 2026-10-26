@@ -186,9 +186,19 @@ backButton.addEventListener("click", () => {
   document.querySelector("#modal-gallery").style.display = "block";
 });
 
-fetch(`http://localhost:5678/api/works/${work.id}`, {
-  method: "DELETE",
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
+const photoInput = document.querySelector("#photo");
+const photoPreview = document.querySelector("#photo-preview");
+const photoUpload = document.querySelector(".photo-upload");
+
+photoInput.addEventListener("change", () => {
+  const fichier = photoInput.files[0];
+
+  if (fichier) {
+    photoPreview.src = URL.createObjectURL(fichier);
+    photoPreview.style.display = "block";
+
+    photoUpload.querySelector("i").style.display = "none";
+    photoUpload.querySelector("label").style.display = "none";
+    photoUpload.querySelector("p").style.display = "none";
+  }
 });
