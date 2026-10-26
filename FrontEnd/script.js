@@ -49,6 +49,29 @@ function afficherProjets(projets) {
   });
 }
 
+async function supprimerProjet(id) {
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.error("Erreur lors de la suppression du projet");
+      return;
+    }
+
+    tousLesProjets = tousLesProjets.filter((work) => work.id !== id);
+
+    afficherProjets(tousLesProjets);
+    afficherPhotosModale(tousLesProjets);
+  } catch (error) {
+    console.error("Erreur de connexion au serveur :", error);
+  }
+}
+
 function afficherPhotosModale(projets) {
   const modalPhotos = document.querySelector(".modal-photos");
 
@@ -64,6 +87,9 @@ function afficherPhotosModale(projets) {
 
     deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
     deleteButton.type = "button";
+    deleteButton.addEventListener("click", () => {
+      supprimerProjet(work.id);
+    });
 
     figure.appendChild(image);
     figure.appendChild(deleteButton);
@@ -158,4 +184,11 @@ const backButton = document.querySelector("#back-button");
 backButton.addEventListener("click", () => {
   document.querySelector("#modal-add").style.display = "none";
   document.querySelector("#modal-gallery").style.display = "block";
+});
+
+fetch(`http://localhost:5678/api/works/${work.id}`, {
+  method: "DELETE",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
 });
