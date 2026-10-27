@@ -111,6 +111,16 @@ fetch("http://localhost:5678/api/works")
 fetch("http://localhost:5678/api/categories")
   .then((response) => response.json())
   .then((categories) => {
+    const categorySelect = document.querySelector("#category");
+
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+
+      option.value = category.id;
+      option.textContent = category.name;
+
+      categorySelect.appendChild(option);
+    });
     const filters = document.querySelector(".filters");
 
     const allButton = document.createElement("button");
@@ -200,5 +210,62 @@ photoInput.addEventListener("change", () => {
     photoUpload.querySelector("i").style.display = "none";
     photoUpload.querySelector("label").style.display = "none";
     photoUpload.querySelector("p").style.display = "none";
+  }
+});
+
+const addPhotoForm = document.querySelector("#add-photo-form");
+const addPhotoError = document.querySelector("#add-photo-error");
+const titleInput = document.querySelector("#title");
+const categorySelect = document.querySelector("#category");
+
+addPhotoForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const fichier = photoInput.files[0];
+  const titre = titleInput.value.trim();
+  const categorie = categorySelect.value;
+
+  if (!fichier || !titre || !categorie) {
+    addPhotoError.textContent = "Veuillez remplir tous les champs.";
+    return;
+  }
+
+  if (!["image/jpeg", "image/png"].includes(fichier.type)) {
+    addPhotoError.textContent = "Choisissez une image JPG ou PNG.";
+    return;
+  }
+
+  if (fichier.size > 4 * 1024 * 1024) {
+    addPhotoError.textContent = "L'image ne doit pas dépasser 4 Mo.";
+    return;
+  }
+
+  addPhotoError.textContent = "";
+  const formData = new FormData();
+
+  formData.append("image", fichier);
+  formData.append("title", titre);
+  formData.append("category", categorie);
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      addPhotoError.textContent = "Erreur lors de l'ajout du projet.";
+      return;
+    }
+
+    const nouveauProjet = await response.json();
+
+    console.log("Projet ajouté :", nouveauProjet);
+  } catch (error) {
+    console.error("Erreur lors de l'envoi :", error);
+    addPhotoError.textContent = "Impossible de contacter le serveur.";
   }
 });
